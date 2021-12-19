@@ -9,7 +9,7 @@ public class GameField {
     //пустая клетка = -1
     //подбитый корабль = -2
 
-    public GameField(String name, int[][] field) {
+    public GameField(String name) {
         this.name = name;
         this.playerField = new int[10][10];
         for (int[] row: playerField){
