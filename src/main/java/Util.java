@@ -89,4 +89,39 @@ public class Util {
             return true;
         }
     }
+    public boolean oreolOfShip(String userInput, int sizeShip, int[][] playerField){
+        //проверяет состояние орелоа вокруг корабля, соседняя клетка либо свободна (-1), либо в клетке уже есть ореол(0),
+        //при нахождении в клетке корабля (1), установка коробля в эту клетку невозможна
+        boolean condition = true;
+        List<Integer> x = new ArrayList<>();
+        List<Integer> y = new ArrayList<>();
+        String[] ship = userInput.split(";");
+        for(String elements: ship) {
+            String elem = elements;
+            String[] xy = elem.split(",");
+            x.add(Integer.parseInt(xy[0]));
+            y.add(Integer.parseInt(xy[1]));
+        }
+        for(int i = 0; i < sizeShip; i++){
+            if( (playerField[x.get(i)-1][y.get(i)-1] == 0 | playerField[x.get(i)-1][y.get(i)-1] == -1)
+                    & (playerField[x.get(i)][y.get(i)-1] == 0 | playerField[x.get(i)][y.get(i)-1] == -1)
+                    & (playerField[x.get(i)+1][y.get(i)-1] == 0 | playerField[x.get(i)+1][y.get(i)-1] == -1)
+                    & (playerField[x.get(i)+1][y.get(i)] == 0 | playerField[x.get(i)+1][y.get(i)] == -1)
+                    & (playerField[x.get(i)+1][y.get(i)+1] == 0 | playerField[x.get(i)+1][y.get(i)+1] == -1)
+                    & (playerField[x.get(i)][y.get(i)+1] == 0 | playerField[x.get(i)][y.get(i)+1] == -1)
+                    & (playerField[x.get(i)-1][y.get(i)+1] == 0 | playerField[x.get(i)-1][y.get(i)+1] == -1)
+                    & (playerField[x.get(i)-1][y.get(i)] == 0 | playerField[x.get(i)-1][y.get(i)] == -1)){
+                condition = false;
+            }else{
+                condition = true;
+            }
+        }
+        if (condition == false){
+            return false;
+        }else{
+            System.out.println("Слишком близко к другому короблю. Введите другие координаты");
+            return true;
+        }
+
+    }
 }
