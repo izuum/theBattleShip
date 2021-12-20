@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class Util {
     public boolean countCoordinates(String userInput, int sizeShip){
@@ -33,7 +35,40 @@ public class Util {
             return true;
         }
     }
+    public boolean validShip(String userInput, int sizeShip){
+        //проверяет валидность корабля, по вертикали или по горизонтали
+        boolean vertical = true;
+        boolean gorizontal = true;
+        if(sizeShip == 1){ // однопалубный корабль всегда валиден
+            vertical = false;
+            gorizontal = false;
+        }
+        List<Integer> x = new ArrayList<>();
+        List<Integer> y = new ArrayList<>();
+        String[] ship = userInput.split(";");
+        for(String elements: ship) {
+            String elem = elements;
+            String[] xy = elem.split(",");
+            x.add(Integer.parseInt(xy[0]));
+            y.add(Integer.parseInt(xy[1]));
+        }
+        for (int i = 0; i < sizeShip; i++){ //проверяются коорднаты как в одну сторону так и в другую
+            if (((x.get(0) == x.get(i)) & ((y.get(0)+i) == y.get(i))) || ((x.get(0) == x.get(i)) & ((y.get(0)-i) == y.get(i)))){
+                gorizontal = false;
+            }
+            if((x.get(0)+i == x.get(i)) & (y.get(0) == y.get(i)) || (x.get(0)-i == x.get(i)) & (y.get(0) == y.get(i))){
+                vertical = false;
+            }
+        }
+        if(vertical == false || gorizontal == false){
+            return false;
+        }else{
+            System.out.println("Неверные координаты для корабля. Корбль должен быть ровным!");
+            return true;
+        }
+    }
     public boolean freeCoordinatesOnField(String userInput, int[][] playerField){
+        //проверка на свободность выбранных координат
         boolean condition = true;
         String[] coordinates = userInput.split(";");
         for(String elements: coordinates) {
