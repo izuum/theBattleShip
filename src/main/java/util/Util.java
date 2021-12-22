@@ -1,5 +1,4 @@
 package util;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,68 +7,69 @@ public class Util {
         //проверка координат на соответствие количеству палуб корабля
         String[] coordinates = userInput.split(";");
         if(coordinates.length == sizeShip){
-            return true;
-        }else{
-            System.out.println("Слишком мало координат, введите повторно(Формат x,y;x,y;x,y;x,y");
             return false;
+        }else{
+            return true;
         }
     }
     public static boolean validCoordinates(String userInput){
         //проверка координат на корректность (целочисленность координаты и нахождение ее в нужном диапазоне)
-        boolean condition = false;
+        boolean condition = true;
         String[] coordinates = userInput.split(";");
-        for(String elements: coordinates){
+        try{
+            for(String elements: coordinates){
             String elem = elements;
             String[] xy = elem.split(",");
-            int x = Integer.parseInt(xy[0]);
-            int y = Integer.parseInt(xy[1]);
-            if ((x%1==0 & y%1==0) & (0 <= x & x <= 9) & (0 <= y & y <= 9)){
-                condition =  true;
+                int x = Integer.parseInt(xy[0]);
+                int y = Integer.parseInt(xy[1]);
+                if ((x%1==0 & y%1==0) & (0 <= x & x <= 9) & (0 <= y & y <= 9)){
+                    condition =  false;
+                }
             }
-        }
-        if (condition){
+        }catch (IllegalArgumentException e){
             return true;
-        }else{
-            System.out.println("Некорректные координаты.Введенные " +
-                    "координаты должны быть целочисленными, в диапазоне от 0 до 9.");
+        }
+        if (!condition){
             return false;
+        }else{
+            return true;
         }
     }
     public static boolean validShip(String userInput, int sizeShip){
         //проверяет валидность корабля, по вертикали или по горизонтали
-        boolean vertical = false;
-        boolean gorizontal = false;
+        boolean vertical = true;
+        boolean gorizontal = true;
         if(sizeShip == 1){ // однопалубный корабль всегда валиден
-            vertical = true;
-            gorizontal = true;
+            vertical = false;
+            gorizontal = false;
         }
         List<Integer> x = new ArrayList<>();
         List<Integer> y = new ArrayList<>();
         String[] ship = userInput.split(";");
-        for(String elements: ship) {
+        for(String elements: ship) {                ////////////////////////разобраться с методом(не правильно работает!)
             String elem = elements;
             String[] xy = elem.split(",");
             x.add(Integer.parseInt(xy[0]));
             y.add(Integer.parseInt(xy[1]));
         }
         for (int i = 0; i < sizeShip; i++){ //проверяются коорднаты как в одну сторону так и в другую
-            if (((x.get(0) == x.get(i)) & ((y.get(0)+i) == y.get(i))) || ((x.get(0) == x.get(i)) & ((y.get(0)-i) == y.get(i)))){
-                gorizontal = true;
+            if (((x.get(0) == x.get(i)) & ((y.get(0)+i) == y.get(i))) | ((x.get(0) == x.get(i)) & ((y.get(0)-i) == y.get(i)))){
+                gorizontal = false;
             }
-            if((x.get(0)+i == x.get(i)) & (y.get(0) == y.get(i)) || (x.get(0)-i == x.get(i)) & (y.get(0) == y.get(i))){
-                vertical = true;
+            if((x.get(0)+i == x.get(i)) & (y.get(0) == y.get(i)) | (x.get(0)-i == x.get(i)) & (y.get(0) == y.get(i))){
+                vertical = false;
             }
         }
-        if(vertical == true || gorizontal == true){
-            return true;
+        if(vertical == false || gorizontal == false){
+            return false;
         }else{
             System.out.println("Неверные координаты для корабля. Корбль должен быть ровным!");
-            return false;
+            return true;
         }
     }
     public static boolean freeCoordinatesOnField(String userInput, int[][] playerField){
         //проверка на свободность выбранных координат
-        boolean condition = false;
+        boolean condition = true;
         String[] coordinates = userInput.split(";");
         for(String elements: coordinates) {
             String elem = elements;
@@ -77,20 +77,20 @@ public class Util {
             int x = Integer.parseInt(xy[0]);
             int y = Integer.parseInt(xy[1]);
             if(playerField[x][y] == -1){
-                condition = true;
+                condition = false;
             }
         }
-        if(condition){
-            return true;
+        if(!condition){
+            return false;
         }else{
             System.out.println("Эти координаты заняты, введите другие координаты.");
-            return false;
+            return true;
         }
     }
     public static boolean oreolOfShip(String userInput, int sizeShip, int[][] playerField){
         //проверяет состояние орелоа вокруг корабля, соседняя клетка либо свободна (-1), либо в клетке уже есть ореол(0),
         //при нахождении в клетке корабля (1), установка коробля в эту клетку невозможна
-        boolean condition = false;
+        boolean condition = true;
         List<Integer> x = new ArrayList<>();
         List<Integer> y = new ArrayList<>();
         String[] ship = userInput.split(";");
@@ -109,19 +109,19 @@ public class Util {
                     & (playerField[x.get(i)][y.get(i)+1] == 0 | playerField[x.get(i)][y.get(i)+1] == -1)
                     & (playerField[x.get(i)-1][y.get(i)+1] == 0 | playerField[x.get(i)-1][y.get(i)+1] == -1)
                     & (playerField[x.get(i)-1][y.get(i)] == 0 | playerField[x.get(i)-1][y.get(i)] == -1)){
-                condition = true;
+                condition = false;
             }
         }
-        if (condition){
-            return true;
+        if (!condition){
+            return false;
         }else{
             System.out.println("Слишком близко к другому короблю. Введите другие координаты");
-            return false;
+            return true;
         }
     }
     public static boolean shipInEdgeOfMap(String userInput, int sizeShip, int[][] playerField){
         //проверяет ореол корабля, если он ставится на край карты
-        boolean condition = false;
+        boolean condition = true;
         List<Integer> x = new ArrayList<>();
         List<Integer> y = new ArrayList<>();
         String[] ship = userInput.split(";");
@@ -135,13 +135,13 @@ public class Util {
             if (playerField[x.get(i)+1][y.get(i)-1]<0 || playerField[x.get(i)+1][y.get(i)]<0 || playerField[x.get(i)][y.get(i)-1]<0 ||
                     playerField[x.get(i)-1][y.get(i)]<0 || playerField[x.get(i)-1][y.get(i)-1]<0 || playerField[x.get(i)-1][y.get(i)+1]<0 ||
                     playerField[x.get(i)][y.get(i)+1]<0 || playerField[x.get(i)+1][y.get(i)+1]<0){
-                condition = true;
+                condition = false;
             }
         }
-        if(condition){
-            return true;
-        }else{
+        if(!condition){
             return false;
+        }else{
+            return true;
         }
     }
     public static void setupShips(String userInput, int sizeShip, int[][] playerField){

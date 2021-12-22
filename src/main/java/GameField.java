@@ -1,8 +1,5 @@
 import java.util.Arrays;
 import java.util.Scanner;
-
-import util.Util.*;
-
 import static util.Util.*;
 
 public class GameField {
@@ -87,25 +84,28 @@ public class GameField {
         }
     }
     public boolean arrangedShip(String userInput, int sizeShip, int[][] playerField){
-        if(countCoordinates(userInput, sizeShip)){
+//        if(countCoordinates(userInput, sizeShip)){
+//            System.out.println("Неподходящее кол-во координат, введите повторно!");
+//            return false;
+//        }
+//        if(validCoordinates(userInput)){
+//            System.out.println("Некорректные координаты.Введенные " +
+//                    "координаты должны быть целочисленными, в диапазоне от 0 до 9.");
+//            return false;
+//        }
+        if(validShip(userInput, sizeShip)){//////////////////////метод не правильно работает!
             return false;
         }
-        if(validCoordinates(userInput)){
-            return false;
-        }
-        if(validShip(userInput, sizeShip)){
-            return false;
-        }
-        if(freeCoordinatesOnField(userInput, playerField)){
-            return false;
-        }
-        if(oreolOfShip(userInput, sizeShip, playerField)){
-            return false;
-        }
-        if(shipInEdgeOfMap(userInput, sizeShip, playerField)){
-            return false;
-        }
-        setupShips(userInput, sizeShip, playerField);
-        return false;
+//        if(freeCoordinatesOnField(userInput, playerField)){
+//            return false;
+//        }
+//        if(oreolOfShip(userInput, sizeShip, playerField)){
+//            return false;
+//        }
+//        if(shipInEdgeOfMap(userInput, sizeShip, playerField)){
+//            return false;
+//        }
+//        setupShips(userInput, sizeShip, playerField);
+        return true;
     }
 }
