@@ -98,14 +98,16 @@ public class GameField {
             return false;
         }
         if(freeCoordinatesOnField(userInput, playerField)){
+            System.out.println("Эти координаты заняты, введите другие координаты.");
             return false;
         }
         if(oreolOfShip(userInput, sizeShip, playerField)){
+            System.out.println("Слишком близко к другому короблю. Введите другие координаты");
             return false;
         }
-        if(shipInEdgeOfMap(userInput, sizeShip, playerField)){
-            return false;
-        }
+//        if(shipInEdgeOfMap(userInput, sizeShip, playerField)){
+//            return false;
+//        }
         setupShips(userInput, sizeShip, playerField);
         return true;
     }
