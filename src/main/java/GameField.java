@@ -84,28 +84,29 @@ public class GameField {
         }
     }
     public boolean arrangedShip(String userInput, int sizeShip, int[][] playerField){
-//        if(countCoordinates(userInput, sizeShip)){
-//            System.out.println("Неподходящее кол-во координат, введите повторно!");
-//            return false;
-//        }
-//        if(validCoordinates(userInput)){
-//            System.out.println("Некорректные координаты.Введенные " +
-//                    "координаты должны быть целочисленными, в диапазоне от 0 до 9.");
-//            return false;
-//        }
-        if(validShip(userInput, sizeShip)){//////////////////////метод не правильно работает!
+        if(countCoordinates(userInput, sizeShip)){
+            System.out.println("Неподходящее кол-во координат, введите повторно!");
             return false;
         }
-//        if(freeCoordinatesOnField(userInput, playerField)){
-//            return false;
-//        }
-//        if(oreolOfShip(userInput, sizeShip, playerField)){
-//            return false;
-//        }
-//        if(shipInEdgeOfMap(userInput, sizeShip, playerField)){
-//            return false;
-//        }
-//        setupShips(userInput, sizeShip, playerField);
+        if(validCoordinates(userInput)){
+            System.out.println("Некорректные координаты.Введенные " +
+                    "координаты должны быть целочисленными, в диапазоне от 0 до 9.");
+            return false;
+        }
+        if(validShip(userInput, sizeShip)){
+            System.out.println("Неверные координаты для корабля. Корбль должен быть ровным, вертикальным или горизонтальным!");
+            return false;
+        }
+        if(freeCoordinatesOnField(userInput, playerField)){
+            return false;
+        }
+        if(oreolOfShip(userInput, sizeShip, playerField)){
+            return false;
+        }
+        if(shipInEdgeOfMap(userInput, sizeShip, playerField)){
+            return false;
+        }
+        setupShips(userInput, sizeShip, playerField);
         return true;
     }
 }

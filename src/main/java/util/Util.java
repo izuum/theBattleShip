@@ -18,12 +18,13 @@ public class Util {
         String[] coordinates = userInput.split(";");
         try{
             for(String elements: coordinates){
-            String elem = elements;
-            String[] xy = elem.split(",");
-                int x = Integer.parseInt(xy[0]);
-                int y = Integer.parseInt(xy[1]);
-                if ((x%1==0 & y%1==0) & (0 <= x & x <= 9) & (0 <= y & y <= 9)){
-                    condition =  false;
+                String elem = elements;
+                String[] xy = elem.split(",");
+                if ((Integer.parseInt(xy[0]) >= 0 && Integer.parseInt(xy[0]) <= 9)
+                        && (Integer.parseInt(xy[1]) >= 0 && Integer.parseInt(xy[1]) <= 9)){
+                    condition = false;
+                }else{
+                    throw new IllegalArgumentException();
                 }
             }
         }catch (IllegalArgumentException e){
@@ -37,33 +38,34 @@ public class Util {
     }
     public static boolean validShip(String userInput, int sizeShip){
         //проверяет валидность корабля, по вертикали или по горизонтали
-        boolean vertical = true;
-        boolean gorizontal = true;
+        boolean condition = true;
         if(sizeShip == 1){ // однопалубный корабль всегда валиден
-            vertical = false;
-            gorizontal = false;
+            condition = false;
         }
         List<Integer> x = new ArrayList<>();
         List<Integer> y = new ArrayList<>();
         String[] ship = userInput.split(";");
-        for(String elements: ship) {                ////////////////////////разобраться с методом(не правильно работает!)
-            String elem = elements;
-            String[] xy = elem.split(",");
-            x.add(Integer.parseInt(xy[0]));
-            y.add(Integer.parseInt(xy[1]));
-        }
-        for (int i = 0; i < sizeShip; i++){ //проверяются коорднаты как в одну сторону так и в другую
-            if (((x.get(0) == x.get(i)) & ((y.get(0)+i) == y.get(i))) | ((x.get(0) == x.get(i)) & ((y.get(0)-i) == y.get(i)))){
-                gorizontal = false;
+        try{
+            for(String elements: ship) {                
+                String elem = elements;
+                String[] xy = elem.split(",");
+                x.add(Integer.parseInt(xy[0]));
+                y.add(Integer.parseInt(xy[1]));
             }
-            if((x.get(0)+i == x.get(i)) & (y.get(0) == y.get(i)) | (x.get(0)-i == x.get(i)) & (y.get(0) == y.get(i))){
-                vertical = false;
+            for (int i = 0; i < sizeShip; i++){ //проверяются коорднаты как в одну сторону так и в другую
+                if ((((x.get(0) == x.get(i)) && (y.get(0)+i == y.get(i))) || ((x.get(0) == x.get(i)) && ((y.get(0)-i) == y.get(i))))
+                        || (((x.get(0)+i == x.get(i)) && (y.get(0) == y.get(i))) || ((x.get(0)-i == x.get(i)) && ((y.get(0) == y.get(i)))))){
+                    condition = false;
+                }else{
+                    throw new IllegalArgumentException();
+                }
             }
+        }catch (IllegalArgumentException e){
+            return true;
         }
-        if(vertical == false || gorizontal == false){
+        if(!condition){
             return false;
         }else{
-            System.out.println("Неверные координаты для корабля. Корбль должен быть ровным!");
             return true;
         }
     }
