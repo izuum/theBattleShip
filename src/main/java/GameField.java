@@ -105,9 +105,6 @@ public class GameField {
             System.out.println("Слишком близко к другому короблю. Введите другие координаты");
             return false;
         }
-//        if(shipInEdgeOfMap(userInput, sizeShip, playerField)){
-//            return false;
-//        }
         setupShips(userInput, sizeShip, playerField);
         return true;
     }
