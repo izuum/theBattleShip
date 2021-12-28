@@ -93,14 +93,16 @@ public class Util {
                 x.add(Integer.parseInt(xy[0]));
                 y.add(Integer.parseInt(xy[1]));
             }
-            for (int i = 1; i < sizeShip; i++) {
+            for (int i = 0; i < sizeShip; i++) {
                 if (((x.get(0) == x.get(i)) && (y.get(0) + i == y.get(i)))/* || ((x.get(0) == x.get(i)) && ((y.get(0) - i) == y.get(i)))*/) {///проверка кораля в обратную сторону(справа налево)
                     position++;
                 } else if (((x.get(0) + i == x.get(i)) && (y.get(0) == y.get(i)))/* || ((x.get(0) - i == x.get(i)) && ((y.get(0) == y.get(i))))*/) {///проверка кораля в обратную сторону(справа налево)
                     position--;
+                }else{
+                    position=1;
                 }
             }
-            if( position > 0){
+            if( position > 1){
                 for( int i = 0; i < sizeShip; i++){
                     if((x.get(0) == 0 & y.get(0) == 0) & (y.get(0) == y.get(i) & x.get(0) != x.get(0)+1)){//корабль вертикально в левом верхнем углу
                         if((playerField[x.get(sizeShip)][y.get(i)]==0 || playerField[x.get(sizeShip)][y.get(i)]==-1) &&
@@ -158,12 +160,22 @@ public class Util {
                                 (playerField[x.get(0)+sizeShip][y.get(0)]==0 || playerField[x.get(0)+sizeShip][y.get(0)]==-1)){
                             condition = false;
                         }
+                    }else if((1 <= x.get(0) & x.get(0) <=8) & (x.get(0)!=x.get(0)+1 & y.get(0)==y.get(i))){
+                        if((playerField[x.get(0)-1][y.get(i)]==0 || playerField[x.get(0)-1][y.get(i)]==-1) &&
+                                (playerField[x.get(0)-1][y.get(0)-1]==0 || playerField[x.get(0)-1][y.get(0)-1]==-1) &&
+                                (playerField[x.get(0)-1][y.get(0)+1]==0 || playerField[x.get(0)-1][y.get(0)+1]==-1) &&
+                                (playerField[x.get(i)][y.get(i)-1]==0 || playerField[x.get(i)][y.get(i)-1]==-1) &&
+                                (playerField[x.get(i)][y.get(i)+1]==0 || playerField[x.get(i)][y.get(i)+1]==-1) &&
+                                (playerField[x.get(0)+sizeShip][y.get(i)]==0 || playerField[x.get(0)+sizeShip][y.get(i)]==-1) &&
+                                (playerField[x.get(0)+sizeShip][y.get(i)-1]==0 || playerField[x.get(0)+sizeShip][y.get(i)-1]==-1) &&
+                                (playerField[x.get(0)+sizeShip][y.get(i)+1]==0 || playerField[x.get(0)+sizeShip][y.get(i)+1]==-1)) {
+                            condition = false;
+                        }
                     }else{
                         throw new IllegalArgumentException();
                     }
                 }
-            }
-            if (position < 0){
+            }else if (position < 0){
                 for(int i = 0; i < sizeShip; i++){
                     if((x.get(0)==0 & y.get(0)==0) & (x.get(0)==x.get(i) & y.get(0)!=y.get(0)+1)){//верхний левый угол по горизонтали
                         if((playerField[x.get(i)+1][y.get(i)]==0 || playerField[x.get(i)+1][y.get(i)]==-1) &&
@@ -221,7 +233,33 @@ public class Util {
                                 (playerField[x.get(i)+1][y.get(0)+sizeShip]==0 || playerField[x.get(i)+1][y.get(0)+sizeShip]==-1)){
                             condition = false;
                         }
+                    }else if((1 <= x.get(0) & x.get(0) <= 8) & (x.get(0)==x.get(i) & y.get(0)!=y.get(0)+1)){
+                        if((playerField[x.get(0)][y.get(0)-1]==0 || playerField[x.get(0)][y.get(0)-1]==-1) &&
+                                (playerField[x.get(0)-1][y.get(0)-1]==0 || playerField[x.get(0)-1][y.get(0)-1]==-1) &&
+                                (playerField[x.get(0)+1][y.get(0)-1]==0 || playerField[x.get(0)+1][y.get(0)-1]==-1) &&
+                                (playerField[x.get(i)-1][y.get(i)]==0 || playerField[x.get(i)-1][y.get(i)]==-1) &&
+                                (playerField[x.get(i)-1][y.get(i)]==0 || playerField[x.get(i)-1][y.get(i)]==-1) &&
+                                (playerField[x.get(i)][y.get(0)+sizeShip]==0 || playerField[x.get(i)][y.get(0)+sizeShip]==-1) &&
+                                (playerField[x.get(i)-1][y.get(0)+sizeShip]==0 || playerField[x.get(i)-1][y.get(0)+sizeShip]==-1) &&
+                                (playerField[x.get(i)+1][y.get(0)+sizeShip]==0 || playerField[x.get(i)+1][y.get(0)+sizeShip]==-1)){
+                            condition = false;
+                        }
+                    }else{
+                        throw new IllegalArgumentException();
                     }
+                }
+            }else if(position==1){
+                if((playerField[x.get(0)-1][y.get(0)]==0 || playerField[x.get(0)-1][y.get(0)]==-1) &&
+                        (playerField[x.get(0)-1][y.get(0)+1]==0 || playerField[x.get(0)-1][y.get(0)+1]==-1) &&
+                        (playerField[x.get(0)-1][y.get(0)-1]==0 || playerField[x.get(0)-1][y.get(0)-1]==-1) &&
+                        (playerField[x.get(0)][y.get(0)-1]==0 || playerField[x.get(0)][y.get(0)-1]==-1) &&
+                        (playerField[x.get(0)][y.get(0)+1]==0 || playerField[x.get(0)][y.get(0)+1]==-1) &&
+                        (playerField[x.get(0)+1][y.get(0)]==0 || playerField[x.get(0)+1][y.get(0)]==-1) &&
+                        (playerField[x.get(0)+1][y.get(0)-1]==0 || playerField[x.get(0)+1][y.get(0)-1]==-1) &&
+                        (playerField[x.get(0)+1][y.get(0)+1]==0 || playerField[x.get(0)+1][y.get(0)+1]==-1)){
+                    condition = false;
+                }else{
+                    throw new IllegalArgumentException();
                 }
             }
         }catch (IllegalArgumentException e){
@@ -240,11 +278,8 @@ public class Util {
             y.add(Integer.parseInt(xy[1]));
         }
         for(int i = 0; i < sizeShip; i++){
-            if(playerField[x.get(i)][y.get(i)] == -1){
-                playerField[x.get(i)][y.get(i)] = 1;
+            playerField[x.get(i)][y.get(i)] = 1;
             }
-
-        }
         for(int i = 0; i < 10; i++){///////////////////////////////вывод игрового поля в консоль
             for(int j = 0; j < 10; j++){
                 if (playerField[i][j] == 1){
