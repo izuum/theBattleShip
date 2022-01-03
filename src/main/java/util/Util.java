@@ -81,7 +81,7 @@ public class Util {
     }
     public static boolean oreolOfShip(String userInput, int sizeShip, int[][] playerField){
         //проверяет состояние орелоа вокруг корабля, соседняя клетка либо свободна (-1), либо в клетке уже есть ореол(0),
-        //при нахождении в клетке корабля (1), установка коробля в эту клетку невозможна. Также проверяет ореол, если корабль на краю карты.
+        //при нахождении в клетке корабля (1), установка корабля в эту клетку невозможна. Также проверяет ореол, если корабль на краю карты.
         boolean condition = true;
         int position = 0;
         List<Integer> x = new ArrayList<>();
@@ -95,72 +95,80 @@ public class Util {
             }
             for (int i = 0; i < sizeShip; i++) {
                 if (((x.get(0) == x.get(i)) && (y.get(0) + i == y.get(i)))/* || ((x.get(0) == x.get(i)) && ((y.get(0) - i) == y.get(i)))*/) {///проверка кораля в обратную сторону(справа налево)
-                    position++;
+                    position=10;//горизонтальный
                 } else if (((x.get(0) + i == x.get(i)) && (y.get(0) == y.get(i)))/* || ((x.get(0) - i == x.get(i)) && ((y.get(0) == y.get(i))))*/) {///проверка кораля в обратную сторону(справа налево)
-                    position--;
+                    position=-10;//вертикальный
                 }else{
                     position=1;
                 }
             }
-            if( position > 1){
+            if( position == -10){
                 for( int i = 0; i < sizeShip; i++){
-                    if((x.get(0) == 0 & y.get(0) == 0) & (y.get(0) == y.get(i) & x.get(0) != x.get(0)+1)){//корабль вертикально в левом верхнем углу
-                        if((playerField[x.get(sizeShip)][y.get(i)]==0 || playerField[x.get(sizeShip)][y.get(i)]==-1) &&
-                                (playerField[x.get(sizeShip)][y.get(i)+1]==0 || playerField[x.get(sizeShip)][y.get(i)+1]==-1) &&
+                    if((x.get(0) == 0 & y.get(0) == 0) & (y.get(0) == y.get(i) & x.get(0) != x.get(0)+1)){//корабль вертикальный в левом верхнем углу
+                        if((playerField[x.get(0)+sizeShip][y.get(i)]==0 || playerField[x.get(0)+sizeShip][y.get(i)]==-1) &&
+                                (playerField[x.get(0)+sizeShip][y.get(i)+1]==0 || playerField[x.get(0)+sizeShip][y.get(i)+1]==-1) &&
                                 (playerField[x.get(i)][y.get(i)+1]==0 || playerField[x.get(i)][y.get(i)+1]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((x.get(sizeShip-1) == 9) && (y.get(0) == y.get(i))){//кораль вертикально в нижнем левом углу
+                    }else if((x.get(sizeShip-1) == 9) && (y.get(i) == 0)){//корабль вертикальный в нижнем левом углу
                         if((playerField[x.get(0)-1][y.get(i)]==0 || playerField[x.get(0)-1][y.get(i)]==-1) &&
                                 (playerField[x.get(0)-1][y.get(i)+1]==0 || playerField[x.get(0)-1][y.get(i)+1]==-1) &&
                                 (playerField[x.get(i)][y.get(i)+1]==0 || playerField[x.get(i)][y.get(i)+1]==-1)) {
                             condition = false;
+                            break;
                         }
-                    }else if(x.get(sizeShip-1)==9 && y.get(0)==9){//корабль вертикально в нижнем правом углу
+                    }else if(x.get(sizeShip-1)==9 && y.get(i)==9){//корабль вертикальный в нижнем правом углу
                         if((playerField[x.get(0)-1][y.get(i)]==0 || playerField[x.get(0)-1][y.get(i)]==-1) &&
                                 (playerField[x.get(0)-1][y.get(0)-1]==0 || playerField[x.get(0)-1][y.get(0)-1]==-1) &&
                                 (playerField[x.get(i)][y.get(i)-1]==0 || playerField[x.get(i)][y.get(i)-1]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((x.get(0)==0 & y.get(0)==9) & (y.get(0)==y.get(i) & x.get(0)!=x.get(0)+1)) {//корабль вертикально в правом верхнем углу
-                        if((playerField[x.get(sizeShip)][y.get(i)]==0 || playerField[x.get(sizeShip)][y.get(i)]==-1) &&
-                                (playerField[x.get(sizeShip)][y.get(i)-1]==0 || playerField[x.get(sizeShip)][y.get(i)-1]==-1) &&
+                    }else if((x.get(0)==0 & y.get(0)==9) & (y.get(0)==y.get(i) & x.get(0)!=x.get(0)+1)) {//корабль вертикальный в правом верхнем углу
+                        if((playerField[x.get(0)+sizeShip][y.get(i)]==0 || playerField[x.get(0)+sizeShip][y.get(i)]==-1) &&
+                                (playerField[x.get(0)+sizeShip][y.get(i)-1]==0 || playerField[x.get(0)+sizeShip][y.get(i)-1]==-1) &&
                                 (playerField[x.get(i)][y.get(i)-1]==0 || playerField[x.get(i)][y.get(i)-1]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((x.get(0)>=1 & x.get(0)<=8) & y.get(0)==0){//корабль вертикально слева
+                    }else if((x.get(0)>=1 & x.get(0)<=8) & y.get(0)==0){//корабль вертикальный слева
                         if((playerField[x.get(0)-1][y.get(i)]==0 || playerField[x.get(0)-1][y.get(i)]==-1) &&
                                 (playerField[x.get(0)-1][y.get(i)+1]==0 || playerField[x.get(0)-1][y.get(i)+1]==-1) &&
                                 (playerField[x.get(i)][y.get(i)+1]==0 || playerField[x.get(i)][y.get(i)+1]==-1) &&
                                 (playerField[x.get(0)+sizeShip][y.get(i)+1]==0 || playerField[x.get(0)+sizeShip][y.get(i)+1]==-1) &&
                                 (playerField[x.get(0)+sizeShip][y.get(i)]==0 || playerField[x.get(0)+sizeShip][y.get(i)]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if(x.get(sizeShip-1)==9 & y.get(0)==y.get(i)){//корабль вертикально снизу
+                    }else if(x.get(sizeShip-1)==9 & y.get(0)==y.get(i)){//корабль вертикальный снизу
                         if((playerField[x.get(i)][y.get(i)-1]==0 || playerField[x.get(i)][y.get(i)-1]==-1) &&
                                 (playerField[x.get(i)][y.get(i)+1]==0 || playerField[x.get(i)][y.get(i)+1]==-1) &&
                                 (playerField[x.get(0)-1][y.get(0)-1]==0 || playerField[x.get(0)-1][y.get(0)-1]==-1) &&
                                 (playerField[x.get(0)-1][y.get(i)]==0 || playerField[x.get(0)-1][y.get(i)]==-1) &&
                                 (playerField[x.get(0)-1][y.get(0)+1]==0 || playerField[x.get(0)-1][y.get(0)+1]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((x.get(0)>=1 & x.get(0)<=8) & y.get(0)==9){//корабль вертикально справа
+                    }else if((x.get(0)>=1 & x.get(0)<=8) & y.get(i)==9){//корабль вертикальный справа
                         if((playerField[x.get(0)-1][y.get(i)]==0 || playerField[x.get(0)-1][y.get(i)]==-1) &&
                                 (playerField[x.get(0)-1][y.get(0)-1]==0 || playerField[x.get(0)-1][y.get(0)-1]==-1) &&
                                 (playerField[x.get(i)][y.get(i)-1]==0 || playerField[x.get(i)][y.get(i)-1]==-1) &&
                                 (playerField[x.get(0)+sizeShip][y.get(0)-1]==0 || playerField[x.get(0)+sizeShip][y.get(0)-1]==-1) &&
                                 (playerField[x.get(0)+sizeShip][y.get(0)]==0 || playerField[x.get(0)+sizeShip][y.get(0)]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if(x.get(0)==0 & y.get(0)==y.get(i)){//корабль вертикально сверху
+                    }else if(x.get(0)==0 & y.get(0)==y.get(i)){//корабль вертикальный сверху
                         if((playerField[x.get(i)][y.get(i)-1]==0 || playerField[x.get(i)][y.get(i)-1]==-1 ) &&
                                 (playerField[x.get(i)][y.get(i)+1]==0 || playerField[x.get(i)][y.get(i)+1]==-1) &&
                                 (playerField[x.get(0)+sizeShip][y.get(i)-1]==0 || playerField[x.get(0)+sizeShip][y.get(i)-1]==-1) &&
                                 (playerField[x.get(0)+sizeShip][y.get(i)+1]==0 || playerField[x.get(0)+sizeShip][y.get(i)+1]==-1) &&
                                 (playerField[x.get(0)+sizeShip][y.get(0)]==0 || playerField[x.get(0)+sizeShip][y.get(0)]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((1 <= x.get(0) & x.get(0) <=8) & (x.get(0)!=x.get(0)+1 & y.get(0)==y.get(i))){
+                    }else if((1 <= x.get(0) & x.get(0) <=8) & (x.get(0)!=x.get(0)+1 & y.get(0)==y.get(i))){//корабль вертикальный в любом другом месте поля
                         if((playerField[x.get(0)-1][y.get(i)]==0 || playerField[x.get(0)-1][y.get(i)]==-1) &&
                                 (playerField[x.get(0)-1][y.get(0)-1]==0 || playerField[x.get(0)-1][y.get(0)-1]==-1) &&
                                 (playerField[x.get(0)-1][y.get(0)+1]==0 || playerField[x.get(0)-1][y.get(0)+1]==-1) &&
@@ -170,70 +178,80 @@ public class Util {
                                 (playerField[x.get(0)+sizeShip][y.get(i)-1]==0 || playerField[x.get(0)+sizeShip][y.get(i)-1]==-1) &&
                                 (playerField[x.get(0)+sizeShip][y.get(i)+1]==0 || playerField[x.get(0)+sizeShip][y.get(i)+1]==-1)) {
                             condition = false;
+                            break;
                         }
                     }else{
                         throw new IllegalArgumentException();
                     }
                 }
-            }else if (position < 0){
+            }else if (position == 10){
                 for(int i = 0; i < sizeShip; i++){
-                    if((x.get(0)==0 & y.get(0)==0) & (x.get(0)==x.get(i) & y.get(0)!=y.get(0)+1)){//верхний левый угол по горизонтали
+                    if((x.get(0)==0 & y.get(0)==0) & (x.get(0)==x.get(i) & y.get(0)!=y.get(0)+1)){//корабль горизонтальный в верхнем левом углу
                         if((playerField[x.get(i)+1][y.get(i)]==0 || playerField[x.get(i)+1][y.get(i)]==-1) &&
                                 (playerField[x.get(0)+1][y.get(0)+sizeShip]==0 || playerField[x.get(0)+1][y.get(0)+sizeShip]==-1) &&
                                 (playerField[x.get(0)][y.get(0)+sizeShip]==0 || playerField[x.get(0)][y.get(0)+sizeShip]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((1 <= x.get(0) & x.get(0) <= 8) & (y.get(0)==0 & y.get(0)!=y.get(i)+1)){//слева по горизонтали
+                    }else if((x.get(0)==9 & x.get(0)==x.get(i)) & (y.get(0)==0 & y.get(0)!=y.get(0)+1)){//корабль горизонтальный в нижнем левом углу
+                        if((playerField[x.get(i)-1][y.get(i)]==0 || playerField[x.get(i)-1][y.get(i)]==-1) &&
+                                (playerField[x.get(i)][y.get(0)+sizeShip]==0 || playerField[x.get(i)][y.get(0)+sizeShip]==-1) &&
+                                (playerField[x.get(i)-1][y.get(i)+1]==0 || playerField[x.get(i)-1][y.get(i)+1]==-1)){
+                            condition = false;
+                            break;
+                        }
+                    }else if((x.get(0)==9 & x.get(i)==9) & y.get(0)+sizeShip-1==9){//корабль горизонтальный в нижнем правом углу
+                        if((playerField[x.get(i)][y.get(0)-1]==0 || playerField[x.get(i)][y.get(0)-1]==-1) &&
+                                (playerField[x.get(i)-1][y.get(i)-1]==0 || playerField[x.get(i)-1][y.get(i)-1]==-1) &&
+                                (playerField[x.get(i)-1][y.get(i)]==0 || playerField[x.get(i)-1][y.get(i)]==-1)){
+                            condition = false;
+                            break;
+                        }
+                    }else if((x.get(0)==0 & x.get(0)==x.get(i)) & y.get(0)+sizeShip-1==9){//корабль горизонтальный в правом верхнем углу
+                        if((playerField[x.get(i)+1][y.get(i)]==0 || playerField[x.get(i)+1][y.get(i)]==-1) &&
+                                (playerField[x.get(i)][y.get(i)-1]==0 || playerField[x.get(i)][y.get(i)-1]==-1) &&
+                                (playerField[x.get(i)+1][y.get(i)-1]==0 || playerField[x.get(i)+1][y.get(i)-1]==-1)){
+                            condition = false;
+                            break;
+                        }
+                    }else if((1 <= x.get(0) & x.get(0) <= 8) & (y.get(0)==0 & y.get(0)!=y.get(i)+1)){//корабль горизонтальный слева
                         if((playerField[x.get(i)-1][y.get(i)]==0 || playerField[x.get(i)-1][y.get(i)]==-1) &&
                                 (playerField[x.get(i)+1][y.get(i)]==0 || playerField[x.get(i)+1][y.get(i)]==-1) &&
                                 (playerField[x.get(i)-1][y.get(i)+1]==0 || playerField[x.get(i)-1][y.get(i)+1]==-1) &&
                                 (playerField[x.get(i)+1][y.get(i)+1]==0 || playerField[x.get(i)+1][y.get(i)+1]==-1) &&
                                 (playerField[x.get(i)][y.get(0)+sizeShip]==0 || playerField[x.get(i)][y.get(0)+sizeShip]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((x.get(0)==9 & x.get(i)==x.get(0)) & (y.get(0)==0 & y.get(0)!=y.get(0)+1)){//нижний левый угол по горизонтали
-                        if((playerField[x.get(i)-1][y.get(i)]==0 || playerField[x.get(i)-1][y.get(i)]==-1) &&
-                                (playerField[x.get(i)][y.get(0)+sizeShip]==0 || playerField[x.get(i)][y.get(0)+sizeShip]==-1) &&
-                                (playerField[x.get(i)-1][y.get(i)+1]==0 || playerField[x.get(i)-1][y.get(i)+1]==-1)){
-                            condition = false;
-                        }
-                    }else if((x.get(0)==9 & x.get(i)==9) & y.get(0)!=y.get(0)+1){//нижний по горизонтали
+                    }else if((x.get(0)==9 & x.get(i)==9) & y.get(0)!=y.get(0)+1){//корабль горизонтальный в снизу
                         if((playerField[x.get(i)][y.get(0)-1]==0 || playerField[x.get(i)][y.get(0)-1]==-1) &&
                                 (playerField[x.get(i)][y.get(0)+sizeShip]==0 || playerField[x.get(i)][y.get(0)+sizeShip]==-1) &&
                                 (playerField[x.get(i)-1][y.get(i)]==0 || playerField[x.get(i)-1][y.get(i)]==-1) &&
                                 (playerField[x.get(i)-1][y.get(0)-1]==0 || playerField[x.get(i)-1][y.get(0)-1]==-1) &&
                                 (playerField[x.get(i)-1][y.get(0)+sizeShip]==0 || playerField[x.get(i)-1][y.get(0)+sizeShip]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((x.get(0)==9 & x.get(i)==9) & y.get(0)+sizeShip-1==9){//нижний правый угол по горзонтальный
-                        if((playerField[x.get(i)][y.get(0)-1]==0 || playerField[x.get(i)][y.get(0)-1]==-1) &&
-                                (playerField[x.get(i)-1][y.get(i)-1]==0 || playerField[x.get(i)-1][y.get(i)-1]==-1) &&
-                                (playerField[x.get(i)-1][y.get(i)]==0 || playerField[x.get(i)-1][y.get(i)]==-1)){
-                            condition = false;
-                        }
-                    }else if((1 <= x.get(0) & x.get(0) <= 8) & (x.get(0)==x.get(i) & y.get(0)+sizeShip-1==9)){//справа по горизонтали
+
+                    }else if((1 <= x.get(0) & x.get(0) <= 8) & (x.get(0)==x.get(i) & (y.get(0)+sizeShip-1==9))){//корабль горизонтальный справа
                         if((playerField[x.get(i)+1][y.get(i)]==0 || playerField[x.get(i)+1][y.get(i)]==-1) &&
                                 (playerField[x.get(i)+1][y.get(0)]==0 || playerField[x.get(i)+1][y.get(0)]==-1) &&
                                 (playerField[x.get(i)][y.get(0)-1]==0 || playerField[x.get(i)][y.get(0)-1]==-1) &&
                                 (playerField[x.get(i)-1][y.get(i)-1]==0 || playerField[x.get(i)-1][y.get(i)-1]==-1) &&
                                 (playerField[x.get(i)+1][y.get(i)-1]==0 || playerField[x.get(i)+1][y.get(i)-1]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((x.get(0)==0 & x.get(i)==x.get(0)) & y.get(0)+sizeShip-1==9){//правый верхнй угол
-                        if((playerField[x.get(i)+1][y.get(i)]==0 || playerField[x.get(i)+1][y.get(i)]==-1) &&
-                                (playerField[x.get(i)][y.get(i)-1]==0 || playerField[x.get(i)][y.get(i)-1]==-1) &&
-                                (playerField[x.get(i)+1][y.get(i)-1]==0 || playerField[x.get(i)+1][y.get(i)-1]==-1)){
-                            condition = false;
-                        }
-                    }else if((x.get(0)==0 & x.get(i)==x.get(0)) & y.get(0)!=y.get(0)+1){//сверху по горизонтали
+                    }else if((x.get(0)==0 & x.get(0)==x.get(i)) & y.get(0)!=y.get(0)+1){//корабль горизонтальный сверху
                         if((playerField[x.get(0)][y.get(0)-1]==0 || playerField[x.get(0)][y.get(0)-1]==-1) &&
                                 (playerField[x.get(i)+1][y.get(i)]==0 || playerField[x.get(i)+1][y.get(i)]==-1) &&
                                 (playerField[x.get(0)+1][y.get(i)-1]==0 || playerField[x.get(0)+1][y.get(i)-1]==-1) &&
                                 (playerField[x.get(i)][y.get(0)+sizeShip]==0 || playerField[x.get(i)][y.get(0)+sizeShip]==-1) &&
                                 (playerField[x.get(i)+1][y.get(0)+sizeShip]==0 || playerField[x.get(i)+1][y.get(0)+sizeShip]==-1)){
                             condition = false;
+                            break;
                         }
-                    }else if((1 <= x.get(0) & x.get(0) <= 8) & (x.get(0)==x.get(i) & y.get(0)!=y.get(0)+1)){
+                    }else if((1 <= x.get(0) & x.get(0) <= 8) && (x.get(0)==x.get(i) & y.get(0)!=y.get(0)+1)){//корабль горизонтальный в любом другом месте поля
                         if((playerField[x.get(0)][y.get(0)-1]==0 || playerField[x.get(0)][y.get(0)-1]==-1) &&
                                 (playerField[x.get(0)-1][y.get(0)-1]==0 || playerField[x.get(0)-1][y.get(0)-1]==-1) &&
                                 (playerField[x.get(0)+1][y.get(0)-1]==0 || playerField[x.get(0)+1][y.get(0)-1]==-1) &&
@@ -243,12 +261,13 @@ public class Util {
                                 (playerField[x.get(i)-1][y.get(0)+sizeShip]==0 || playerField[x.get(i)-1][y.get(0)+sizeShip]==-1) &&
                                 (playerField[x.get(i)+1][y.get(0)+sizeShip]==0 || playerField[x.get(i)+1][y.get(0)+sizeShip]==-1)){
                             condition = false;
+                            break;
                         }
                     }else{
                         throw new IllegalArgumentException();
                     }
                 }
-            }else if(position==1){
+            }else if(position==1){//однопалубный корабль
                 if((playerField[x.get(0)-1][y.get(0)]==0 || playerField[x.get(0)-1][y.get(0)]==-1) &&
                         (playerField[x.get(0)-1][y.get(0)+1]==0 || playerField[x.get(0)-1][y.get(0)+1]==-1) &&
                         (playerField[x.get(0)-1][y.get(0)-1]==0 || playerField[x.get(0)-1][y.get(0)-1]==-1) &&
@@ -263,9 +282,8 @@ public class Util {
                 }
             }
         }catch (IllegalArgumentException e){
-            condition = true;
+            System.out.println("Слишком близко к другому короблю. Введите другие координаты");
         }
-        System.out.println(position);
         return condition;
     }
     public static void setupShips(String userInput, int sizeShip, int[][] playerField){
