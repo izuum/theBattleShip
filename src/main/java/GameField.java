@@ -14,7 +14,7 @@ public class GameField {
 
     public GameField(String name) {
         this.name = name;
-        this.playerShipsCount = 20;
+        this.playerShipsCount = 4;///////////////////////////////////////////////////////////////////////////////////////
         this.playerField = new int[10][10];
         for (int[] row: playerField){
             Arrays.fill(row, -1);
