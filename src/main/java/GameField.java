@@ -5,6 +5,7 @@ import static util.Util.*;
 public class GameField {
     private String name;
     private int[][] playerField;
+    private int playerShipsCount;
 
     //корабль = 1
     //ареол корабля = 0
@@ -13,6 +14,7 @@ public class GameField {
 
     public GameField(String name) {
         this.name = name;
+        this.playerShipsCount = 20;
         this.playerField = new int[10][10];
         for (int[] row: playerField){
             Arrays.fill(row, -1);
@@ -22,7 +24,13 @@ public class GameField {
     public String getName() {
         return name;
     }
+    public int getPlayerShipsCount() {
+        return playerShipsCount;
+    }
 
+    public void setPlayerShipsCount(int playerShipsCount) {
+        this.playerShipsCount = playerShipsCount;
+    }
     public int[][] getPlayerField() {
         return playerField;
     }
