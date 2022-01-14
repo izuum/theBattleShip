@@ -28,7 +28,7 @@ public class GameField {
     }
 
     public void insertShips(){
-        System.out.printf("Начнем расставлять корабли на поле! Сначала выставляет %s, второй игрок отвернись!", name);
+        System.out.printf("Расставляем корабли на поле! Выставляет %s, второй игрок отвернись!", name);
         System.out.println();
         Scanner scanner = new Scanner(System.in);
 
