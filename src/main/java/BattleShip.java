@@ -1,7 +1,7 @@
 import static util.Util.printCompletePlayerField;
 
 public class BattleShip {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         GameField player1 = new GameField("Gosha");
         GameField player2 = new GameField("Igor");
 

@@ -3,13 +3,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Util {
-    public static boolean countCoordinates(String userInput, int sizeShip){
+    public static boolean countCoordinates(String userInput, int sizeShip) {
         //проверка координат на соответствие количеству палуб корабля
-        if(userInput.split(";").length == sizeShip){
-            return false;
-        }else{
-            return true;
+        boolean condition = true;
+        String[] coordinates = userInput.split(";");
+        if(coordinates.length == sizeShip) {
+            for (String elements : coordinates) {
+                String[] xy = elements.split(",");
+                if (xy.length == 2) {
+                    condition = false;
+                } else {
+                    condition = true;
+                }
+            }
         }
+        return condition;
     }
     public static boolean validCoordinates(String userInput){
         //проверка координат на корректность (целочисленность координаты и нахождение ее в нужном диапазоне)
@@ -76,10 +84,9 @@ public class Util {
         }catch (IllegalArgumentException e){
             condition = true;
         }
-
         return condition;
     }
-    public static boolean oreolOfShip(String userInput, int sizeShip, int[][] playerField){
+    public static boolean oreolOfShip(String userInput, int sizeShip, int[][] playerField) throws InterruptedException {
         //проверяет состояние орелоа вокруг корабля, соседняя клетка либо свободна (-1), либо в клетке уже есть ореол(0),
         //при нахождении в клетке корабля (1), установка корабля в эту клетку невозможна. Также проверяет ореол, если корабль на краю карты.
         boolean condition = true;
@@ -282,6 +289,7 @@ public class Util {
                 }
             }
         }catch (IllegalArgumentException e){
+            Thread.sleep(2000);
             System.out.println("Слишком близко к другому короблю. Введите другие координаты");
         }
         return condition;
@@ -299,7 +307,6 @@ public class Util {
         for(int i = 0; i < sizeShip; i++){
             playerField[x.get(i)][y.get(i)] = 1;
             }
-
         for (int i = 0; i < sizeShip; i++) {
             if (((x.get(0) == x.get(i)) && (y.get(0) + i == y.get(i)))) {
                 position=10;//горизонтальный
@@ -425,7 +432,6 @@ public class Util {
             playerField[x.get(0)+1][y.get(0)-1] = 0;
             playerField[x.get(0)+1][y.get(0)+1] = 0;
             }
-
         for(int i = 0; i < 10; i++){///////////////////////////////вывод игрового поля в консоль
             for(int j = 0; j < 10; j++){
                 if (playerField[i][j] == 1){
@@ -442,7 +448,8 @@ public class Util {
         }
         System.out.println();
     }
-    public static void printCompletePlayerField(int[][] playerField){
+    public static void printCompletePlayerField(int[][] playerField) throws InterruptedException {
+        Thread.sleep(1000);
         System.out.println("Твое поле готово!");
         for(int i = 0; i < 10; i++){///////////////////////////////вывод игрового поля в консоль
             for(int j = 0; j < 10; j++){

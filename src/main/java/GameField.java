@@ -13,7 +13,6 @@ public class GameField {
 
     public GameField(String name) {
         this.name = name;
-
         this.playerField = new int[10][10];
         for (int[] row: playerField){
             Arrays.fill(row, -1);
@@ -27,64 +26,74 @@ public class GameField {
         return playerField;
     }
 
-    public void insertShips(){
+    public void insertShips() throws InterruptedException {
         System.out.printf("Расставляем корабли на поле! Выставляет %s, второй игрок отвернись!", name);
         System.out.println();
         Scanner scanner = new Scanner(System.in);
+        Thread.sleep(2000);
 
         System.out.println("Введите координаты четырехпалубного корабля. (x,y; x,y; x,y; x,y)");
         String userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 4, playerField)){
             userInput = scanner.nextLine();
         }
+        Thread.sleep(2000);
         System.out.println("Введите координаты трехпалубного корабля. (x,y; x,y; x,y)");
         userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 3, playerField)){
             userInput = scanner.nextLine();
         }
+        Thread.sleep(2000);
         System.out.println("Введите координаты трехпалубного корабля. (x,y; x,y; x,y)");
         userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 3, playerField)){
             userInput = scanner.nextLine();
         }
+        Thread.sleep(2000);
         System.out.println("Введите координаты двухпалубного корабля. (x,y; x,y)");
         userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 2, playerField)){
             userInput = scanner.nextLine();
         }
+        Thread.sleep(2000);
         System.out.println("Введите координаты двухпалубного корабля. (x,y; x,y)");
         userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 2, playerField)){
             userInput = scanner.nextLine();
         }
+        Thread.sleep(2000);
         System.out.println("Введите координаты двухпалубного корабля. (x,y; x,y)");
         userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 2, playerField)){
             userInput = scanner.nextLine();
         }
+        Thread.sleep(2000);
         System.out.println("Введите координаты однопалубного корабля. (x,y)");
         userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 1, playerField)){
             userInput = scanner.nextLine();
         }
+        Thread.sleep(2000);
         System.out.println("Введите координаты однопалубного корабля. (x,y)");
         userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 1, playerField)){
             userInput = scanner.nextLine();
         }
+        Thread.sleep(2000);
         System.out.println("Введите координаты однопалубного корабля. (x,y)");
         userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 1, playerField)){
             userInput = scanner.nextLine();
         }
+        Thread.sleep(2000);
         System.out.println("Введите координаты однопалубного корабля. (x,y)");
         userInput = scanner.nextLine();
         while(!arrangedShip(userInput, 1, playerField)){
             userInput = scanner.nextLine();
         }
-
+        Thread.sleep(2000);
     }
-    public boolean arrangedShip(String userInput, int sizeShip, int[][] playerField){
+    public boolean arrangedShip(String userInput, int sizeShip, int[][] playerField) throws InterruptedException {
         if(countCoordinates(userInput, sizeShip)){
             System.out.println("Неподходящее кол-во координат, введите повторно!");
             return false;

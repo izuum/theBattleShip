@@ -21,14 +21,11 @@ public class GameProcess {
         for(int[] row: fieldForMark2){
             Arrays.fill(row, -1);
         }
-
-
         gameIsOn = true;
         isPlayer = Math.random() >= 0.5;
-
     }
 
-    public void playerTurn(GameField player1, GameField player2) {
+    public void playerTurn(GameField player1, GameField player2) throws InterruptedException {
         while (!checkCountShips(player1ShipCount, player1)) {
             System.out.printf("%s Выставь корабли заново!", player1.getName());
             player1.insertShips();
@@ -38,12 +35,14 @@ public class GameProcess {
             player2.insertShips();
         }
         System.out.println("Начнем игру!");
+        Thread.sleep(2000);
         Scanner scanner = new Scanner(System.in);
         while (gameIsOn) {
             if (isPlayer) {
                 System.out.printf("Ход игрока %s", player1.getName());
                 System.out.println();
                 printFieldForMarks(fieldForMark1);
+                Thread.sleep(2000);
                 System.out.println("Введи координаты для удара (x,y): ");
                 String userInput = scanner.nextLine();
                 while (validCoordinates(userInput)) {
@@ -56,6 +55,7 @@ public class GameProcess {
                 System.out.printf("Ход игрока %s", player2.getName());
                 System.out.println();
                 printFieldForMarks(fieldForMark2);
+                Thread.sleep(2000);
                 System.out.println("Введи координаты для удара (x,y): ");
                 String userInput = scanner.nextLine();
                 while (validCoordinates(userInput)) {
@@ -65,9 +65,11 @@ public class GameProcess {
                 isPlayer = hitShip(isPlayer, userInput, player1);
             }
             if (player1ShipCount == 0) {
+                Thread.sleep(2000);
                 System.out.printf("%s победил!", player2.getName());
                 gameIsOn = false;
             } else if (player2ShipCount == 0) {
+                Thread.sleep(2000);
                 System.out.printf("%s победил!", player1.getName());
                 gameIsOn = false;
             }
@@ -91,22 +93,22 @@ public class GameProcess {
         }
     }
 
-    private boolean hitShip(boolean isPlayer, String userInput, GameField player) {//удар по кораблю
+    private boolean hitShip(boolean isPlayer, String userInput, GameField player) throws InterruptedException {//удар по кораблю
         String[] xy = userInput.split(",");
-
         if (player.getPlayerField()[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] == 1) {
             player.getPlayerField()[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] = -2;
             if (shipSank(player.getPlayerField(), xy)) {
+                Thread.sleep(2000);
                 System.out.println("Утопил!");
                 if (isPlayer) {
                     player2ShipCount--;
                     fieldForMark1[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] = -2;
-
                 } else {
                     player1ShipCount--;
                     fieldForMark2[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] = -2;
                 }
             } else {
+                Thread.sleep(2000);
                 System.out.println("Ранил");
                 if (isPlayer) {
                     player2ShipCount--;
@@ -117,12 +119,13 @@ public class GameProcess {
                 }
             }
         } else if (player.getPlayerField()[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] == -2) {
-            System.out.println("Ты уже попал сюда! Ходи еще раз!");
+            Thread.sleep(2000);
+            System.out.println("Ты уже стрелял сюда! Ходи еще раз!");
         } else {
+            Thread.sleep(2000);
             System.out.println("Мимо!");
             if (isPlayer) {
                 fieldForMark1[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] = -2;
-
             } else {
                 fieldForMark2[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] = -2;
             }
@@ -180,7 +183,8 @@ public class GameProcess {
         return true;
     }
 
-    private void printFieldForMarks(int[][] field){//выводит поле на котором отмечены выстрелы игрока
+    private void printFieldForMarks(int[][] field) throws InterruptedException {//выводит поле на котором отмечены выстрелы игрока
+        Thread.sleep(2000);
         System.out.println("Подсказка, куда ты уже стрелял.");
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
@@ -197,6 +201,4 @@ public class GameProcess {
             System.out.println();
         }
     }
-
-
 }
