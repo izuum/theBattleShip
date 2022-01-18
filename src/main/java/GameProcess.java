@@ -8,8 +8,8 @@ public class GameProcess {
     private int player2ShipCount;
 
     public GameProcess() {
-        this.player1ShipCount = 4;
-        this.player2ShipCount = 4;
+        this.player1ShipCount = 20;
+        this.player2ShipCount = 20;
 
         gameIsOn = true;
         isPlayer = Math.random() >= 0.5;
@@ -86,6 +86,11 @@ public class GameProcess {
                 }
             }else{
                 System.out.println("Ранил");
+                if (isPlayer) {
+                    player2ShipCount--;
+                } else {
+                    player1ShipCount--;
+                }
             }
         }else if(player.getPlayerField()[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])]==-2) {
             System.out.println("Ты уже попал сюда! Ходи еще раз!");
@@ -99,7 +104,9 @@ public class GameProcess {
         int x = Integer.parseInt(hitCoordinates[0]);
         int y = Integer.parseInt(hitCoordinates[1]);
         while (playerField[x][y] != 0) {
-            if(x > 0) {
+            if (x <= 0){
+                break;
+            } else {
                 x -= 1;
                 if (playerField[x][y] == 1) {
                     return false;
@@ -108,7 +115,9 @@ public class GameProcess {
         }
         x = Integer.parseInt(hitCoordinates[0]);
         while (playerField[x][y] != 0) {
-            if(x < 9) {
+            if(x >= 9){
+                break;
+            }else{
                 x += 1;
                 if (playerField[x][y] == 1) {
                     return false;
@@ -117,7 +126,9 @@ public class GameProcess {
         }
         x = Integer.parseInt(hitCoordinates[0]);
         while (playerField[x][y] != 0) {
-            if(y > 0){
+            if(y <= 0) {
+                break;
+            }else{
                 y -= 1;
                 if (playerField[x][y] == 1) {
                     return false;
@@ -126,7 +137,9 @@ public class GameProcess {
         }
         y = Integer.parseInt(hitCoordinates[0]);
         while (playerField[x][y] != 0) {
-            if(y < 9) {
+            if(y >= 9) {
+                break;
+            }else{
                 y += 1;
                 if (playerField[x][y] == 1) {
                     return false;
@@ -135,4 +148,6 @@ public class GameProcess {
         }
         return true;
     }
+
+    //private void playerFields()
 }
