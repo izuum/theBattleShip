@@ -82,6 +82,7 @@ public class GameField {
         while(!arrangedShip(userInput, 1, playerField)){
             userInput = scanner.nextLine();
         }
+
     }
     public boolean arrangedShip(String userInput, int sizeShip, int[][] playerField){
         if(countCoordinates(userInput, sizeShip)){

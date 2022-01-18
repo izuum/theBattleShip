@@ -425,24 +425,40 @@ public class Util {
             playerField[x.get(0)+1][y.get(0)-1] = 0;
             playerField[x.get(0)+1][y.get(0)+1] = 0;
             }
-        String a =" \uD83D\uDEE5";
-        String b = " \uD83D\uDFE6";
-        String c = " \uD83D\uDFE5";
-        String d = "⬜";
+
         for(int i = 0; i < 10; i++){///////////////////////////////вывод игрового поля в консоль
             for(int j = 0; j < 10; j++){
                 if (playerField[i][j] == 1){
-                    System.out.printf("%2s", a);
+                    System.out.printf("\uD83D\uDEF3\uFE0F");
                 }else if (playerField[i][j] == 0){
-                    System.out.printf("%1s", b);
+                    System.out.printf("\uD83D\uDFE6");
                 }else if (playerField[i][j] == -2){
-                    System.out.printf("%1s", c);
+                    System.out.printf("\uD83D\uDFE5");
                 }else{
-                    System.out.printf("%2s", d);
+                    System.out.printf("\uD83D\uDFEB");
                 }
             }
             System.out.println();
         }
+        System.out.println();
+    }
+    public static void printCompletePlayerField(int[][] playerField){
+        System.out.println("Твое поле готово!");
+        for(int i = 0; i < 10; i++){///////////////////////////////вывод игрового поля в консоль
+            for(int j = 0; j < 10; j++){
+                if (playerField[i][j] == 1){
+                    System.out.printf("\uD83D\uDEF3\uFE0F");
+                }else if (playerField[i][j] == 0){
+                    System.out.printf("\uD83D\uDFE6");
+                }else if (playerField[i][j] == -2){
+                    System.out.printf("\uD83D\uDFE5");
+                }else{
+                    System.out.printf("\uD83D\uDFEB");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
 }
